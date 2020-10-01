@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fourtk.schoolmanager.entities.School;
+import com.fourtk.schoolmanager.dto.SchoolDTO;
 import com.fourtk.schoolmanager.services.SchoolService;
 
 @RestController
@@ -19,8 +19,8 @@ public class SchoolResource {
 	private SchoolService service;	
 	
 	@GetMapping
-	public ResponseEntity<List<School>> findAll(){
-		List<School> list = service.findAll();
+	public ResponseEntity<List<SchoolDTO>> findAll(){
+		List<SchoolDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);		
 	}	
 	
