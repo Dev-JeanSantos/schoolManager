@@ -30,8 +30,28 @@ public class SchoolService {
 		
 		Optional<School> obj = repository.findById(id);
 		School entidade = obj.orElseThrow(() -> new ResourcesNotFoundException("Entity not found"));
-		return new SchoolDTO(entidade);
+		return new SchoolDTO(entidade);		
+	}
+	
+	@Transactional
+	public SchoolDTO insert(SchoolDTO dto) {
+		
+		School entity = new School();
+		copyTDOtoEntity(dto, entity);
+		entity = repository.save(entity);
+		
+		return new SchoolDTO(entity);
 		
 	}
+
+	private void copyTDOtoEntity(SchoolDTO dto, School entity) {
+		
+		entity.setInep(dto.getInep());
+		entity.setName(dto.getName());
+		entity.setAdress(dto.getAdress());
+		entity.setContact(dto.getContact());
+	}
+	
+	
 
 }
