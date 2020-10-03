@@ -12,63 +12,66 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fourtk.schoolmanager.dto.SchoolDTO;
-import com.fourtk.schoolmanager.entities.School;
-import com.fourtk.schoolmanager.repositories.SchoolRepository;
+import com.fourtk.schoolmanager.dto.TeacherDTO;
+import com.fourtk.schoolmanager.entities.Teacher;
+import com.fourtk.schoolmanager.repositories.TeacherRepository;
 import com.fourtk.schoolmanager.services.exceptions.DataBaseException;
 import com.fourtk.schoolmanager.services.exceptions.ResourcesNotFoundException;
 
 @Service
-public class SchoolService {
+public class TeacherService {
 	
 	@Autowired
-	private SchoolRepository repository;
+	private TeacherRepository repository;
 	
 	@Transactional(readOnly = true )
-	public Page<SchoolDTO> findAllPager(PageRequest pageRequest){		
-		Page<School> list= repository.findAll(pageRequest);
-		return list.map(x -> new SchoolDTO(x));
+	public Page<TeacherDTO> findAllPager(PageRequest pageRequest){		
+		Page<Teacher> list= repository.findAll(pageRequest);
+		return list.map(x -> new TeacherDTO(x));
 	}
 	
 	@Transactional(readOnly = true ) 
-	public SchoolDTO findById(Long id) {
+	public TeacherDTO findById(Long id) {
 		
-		Optional<School> obj = repository.findById(id);
-		School entity = obj.orElseThrow(() -> new ResourcesNotFoundException("Entity not found"));
-		return new SchoolDTO(entity, entity.getStudents());		
+		Optional<Teacher> obj = repository.findById(id);
+		Teacher entidade = obj.orElseThrow(() -> new ResourcesNotFoundException("Entity not found"));
+		return new TeacherDTO(entidade);		
 	}
 	
 	@Transactional
-	public SchoolDTO insert(SchoolDTO dto) {
+	public TeacherDTO insert(TeacherDTO dto) {
 		
-		School entity = new School();
+		Teacher entity = new Teacher();
 		copyTDOtoEntity(dto, entity);
 		entity = repository.save(entity);
 		
-		return new SchoolDTO(entity);
+		return new TeacherDTO(entity);
 		
 	}
 	
 	@Transactional
-	public SchoolDTO update(Long id, SchoolDTO dto) {
+	public TeacherDTO update(Long id, TeacherDTO dto) {
 		
 		try {
-			School entity = repository.getOne(id);
+			Teacher entity = repository.getOne(id);
 			copyTDOtoEntity(dto, entity);
 			entity = repository.save(entity);
-			return new SchoolDTO(entity);
+			return new TeacherDTO(entity);
 		}
 		catch (EntityNotFoundException e) {
 			throw new ResourcesNotFoundException("ID not found: " + id);
 		}
 	}
 	
-	private void copyTDOtoEntity(SchoolDTO dto, School entity) {
+	private void copyTDOtoEntity(TeacherDTO dto, Teacher entity) {
 		
-		entity.setInep(dto.getInep());
 		entity.setName(dto.getName());
-		entity.setAdress(dto.getAdress());
+		entity.setCpf(dto.getCpf());
+		entity.setDateOfBirth(dto.getDateOfBirth());
+		entity.setAddress(dto.getAddress());
 		entity.setContact(dto.getContact());
+		entity.setImgUrl(dto.getImgUrl());
+		entity.setGenre(dto.getGenre());
 	}
 
 	public void delete(Long id) {

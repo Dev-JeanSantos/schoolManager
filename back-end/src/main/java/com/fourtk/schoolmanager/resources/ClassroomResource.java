@@ -18,38 +18,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.fourtk.schoolmanager.dto.SchoolDTO;
-import com.fourtk.schoolmanager.services.SchoolService;
+import com.fourtk.schoolmanager.dto.ClassroomDTO;
+import com.fourtk.schoolmanager.services.ClassroomService;
 
 @RestController
-@RequestMapping(value = "/schools")
-public class SchoolResource {
+@RequestMapping(value = "/classrooms")
+public class ClassroomResource {
 	
 	@Autowired
-	private SchoolService service;	
+	private ClassroomService service;	
 	
 	@GetMapping
-	public ResponseEntity<Page<SchoolDTO>> findAll(
+	public ResponseEntity<Page<ClassroomDTO>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
-			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+			@RequestParam(value = "orderBy", defaultValue = "code") String orderBy
 			){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		
-		Page<SchoolDTO> list = service.findAllPager(pageRequest);
+		Page<ClassroomDTO> list = service.findAllPager(pageRequest);
 		return ResponseEntity.ok().body(list);		
 	}	
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<SchoolDTO> findById(@PathVariable Long id){
+	public ResponseEntity<ClassroomDTO> findById(@PathVariable Long id){
 		
-		SchoolDTO dto = service.findById(id);
+		ClassroomDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);		
 	}	
 	
 	@PostMapping
-	public ResponseEntity<SchoolDTO> insert (@RequestBody SchoolDTO dto){
+	public ResponseEntity<ClassroomDTO> insert (@RequestBody ClassroomDTO dto){
 		
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -59,13 +59,13 @@ public class SchoolResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<SchoolDTO> update(@PathVariable Long id, @RequestBody SchoolDTO dto){		
+	public ResponseEntity<ClassroomDTO> update(@PathVariable Long id, @RequestBody ClassroomDTO dto){		
 		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);	
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<SchoolDTO> delete(@PathVariable Long id){		
+	public ResponseEntity<ClassroomDTO> delete(@PathVariable Long id){		
 		service.delete(id);
 		return ResponseEntity.noContent().build();	
 	}

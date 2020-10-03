@@ -1,8 +1,12 @@
 package com.fourtk.schoolmanager.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import com.fourtk.schoolmanager.entities.School;
+import com.fourtk.schoolmanager.entities.Student;
 
 public class SchoolDTO implements Serializable{
 	
@@ -14,6 +18,10 @@ public class SchoolDTO implements Serializable{
 	private String adress;
 	private String contact;
 	
+	
+	private List<StudentDTO> students = new ArrayList<>();
+	
+	
 	public SchoolDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -24,6 +32,7 @@ public class SchoolDTO implements Serializable{
 		this.name = name;
 		this.adress = adress;
 		this.contact = contact;
+		
 	}
 	
 	public SchoolDTO(School entity) {
@@ -31,8 +40,18 @@ public class SchoolDTO implements Serializable{
 		this.inep = entity.getInep();
 		this.name = entity.getName();
 		this.adress = entity.getAdress();
-		this.contact = entity.getContact();
+		this.contact = entity.getContact();		
 	}
+	
+	public SchoolDTO(School entity, Set<Student> students) {
+		
+		this(entity);
+		students.forEach(stu -> this.students.add(new StudentDTO(stu)));
+		
+		
+	}
+	
+	
 	
 
 	public Long getId() {
@@ -73,6 +92,10 @@ public class SchoolDTO implements Serializable{
 
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+
+	public List<StudentDTO> getStudents() {
+		return students;
 	}
 
 	@Override

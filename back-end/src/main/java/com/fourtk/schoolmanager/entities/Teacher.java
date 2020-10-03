@@ -1,52 +1,53 @@
 package com.fourtk.schoolmanager.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.Instant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fourtk.schoolmanager.entities.enums.Genre;
 
 
 @Entity
-@Table(name = "tb_school")
-public class School implements Serializable{
+@Table(name = "tb_teacher")
+public class Teacher implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String inep;
 	private String name;
-	private String adress;
+	private String cpf;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant dateOfBirth;
+	private String address;
 	private String contact;
+	private String imgUrl;
+
+	private Genre genre;
 	
-	@ManyToMany
-	@JoinTable(
-			name = "tb_school_student",
-			joinColumns = @JoinColumn(name = "school_id"),
-			inverseJoinColumns = @JoinColumn(name = "student_id")
-			)
-	private Set<Student> students = new HashSet<>();
+
 	
-	public School() {
+	public Teacher() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public School(Long id, String inep, String name, String adress, String contact) {
+	public Teacher(Long id, String name, String cpf, Instant dateOfBirth, String address, String contact, String imgUrl, Genre genre) {
 		super();
 		this.id = id;
-		this.inep = inep;
 		this.name = name;
-		this.adress = adress;
+		this.cpf = cpf;
+		this.dateOfBirth =  dateOfBirth;
+		this.address = address;
 		this.contact = contact;
+		this.imgUrl = imgUrl;
+		this.genre = genre;
 	}
 
 	public Long getId() {
@@ -57,14 +58,6 @@ public class School implements Serializable{
 		this.id = id;
 	}
 
-	public String getInep() {
-		return inep;
-	}
-
-	public void setInep(String inep) {
-		this.inep = inep;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -73,12 +66,28 @@ public class School implements Serializable{
 		this.name = name;
 	}
 
-	public String getAdress() {
-		return adress;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public Instant getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Instant dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getContact() {
@@ -89,8 +98,20 @@ public class School implements Serializable{
 		this.contact = contact;
 	}
 
-	public Set<Student> getStudents() {
-		return students;
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
 	}
 
 	@Override
@@ -109,7 +130,7 @@ public class School implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		School other = (School) obj;
+		Teacher other = (Teacher) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -117,6 +138,7 @@ public class School implements Serializable{
 			return false;
 		return true;
 	}
+	
 	
 	
 }
